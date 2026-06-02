@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Daily Retro - Newspaper Photobooth 📰</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Special+Elite&family=Courier+Prime&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <title>The Daily Times - HVS Edition 📰</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400;1,700&family=Special+Elite&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --bg-newspaper: #f2efe9; /* Warna kertas koran vintage */
-            --ink-color: #1a1a1a;    /* Warna tinta hitam pudar */
+            --bg-newspaper: #f4f1ea; 
+            --ink-color: #1a1a1a;    
         }
 
         body {
             font-family: 'Poppins', sans-serif;
-            background: #e5dfd3;
+            background: #e6e0d4;
             margin: 0;
             padding: 20px;
             display: flex;
@@ -36,31 +36,30 @@
             margin-bottom: 25px;
             font-size: 14px;
             color: #666;
-            text-align: center;
         }
 
         .container {
             display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 40px;
-            max-width: 1100px;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            max-width: 1000px;
             width: 100%;
         }
 
-        /* Panel Kamera */
+        /* Panel Kamera Atas */
         .booth-section {
-            flex: 1;
-            min-width: 340px;
+            width: 100%;
+            max-width: 600px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            background: rgba(255, 255, 255, 0.8);
-            padding: 25px;
+            background: rgba(255, 255, 255, 0.85);
+            padding: 20px;
             border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.06);
             border: 1px solid #d1c9bc;
-            height: fit-content;
+            box-sizing: border-box;
         }
 
         .camera-box {
@@ -70,7 +69,6 @@
             background: #222;
             border-radius: 6px;
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             border: 3px solid var(--ink-color);
         }
 
@@ -96,71 +94,28 @@
             top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.4);
             color: #fff;
-            font-size: 80px;
+            font-size: 70px;
             font-weight: bold;
             display: flex;
             justify-content: center;
             align-items: center;
             opacity: 0;
-            pointer-events: none;
             z-index: 5;
             font-family: 'Special Elite', cursive;
         }
 
-        .btn {
-            background: var(--ink-color);
-            color: var(--bg-newspaper);
-            border: none;
-            padding: 12px 35px;
-            font-size: 15px;
-            font-weight: bold;
-            font-family: 'Courier Prime', monospace;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-top: 20px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-            transition: all 0.2s;
+        .inputs-group {
+            width: 100%;
+            margin-top: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .custom-input {
             width: 85%;
-            border: 1px solid var(--ink-color);
-        }
-
-        .btn:hover {
-            background: #333;
-            transform: translateY(-1px);
-        }
-
-        .btn:disabled {
-            background: #ccc;
-            border-color: #ccc;
-            cursor: not-allowed;
-            color: #666;
-        }
-
-        .btn-download {
-            background: #8b2635;
-            border-color: #8b2635;
-            color: #fff;
-            margin-top: 20px;
-        }
-        .btn-download:hover { background: #a23142; }
-
-        .tool-label {
-            font-family: 'Courier Prime', monospace;
-            font-size: 13px;
-            font-weight: bold;
-            margin: 20px 0 8px 0;
-            text-transform: uppercase;
-            border-bottom: 1px solid var(--ink-color);
-            width: 85%;
-            padding-bottom: 3px;
-        }
-
-        /* Input Mengubah Headline Koran */
-        .headline-input {
-            width: 80%;
-            padding: 8px 10px;
+            padding: 8px 12px;
             border: 1px solid var(--ink-color);
             background: #faf9f6;
             font-family: 'Courier Prime', monospace;
@@ -168,89 +123,122 @@
             border-radius: 4px;
         }
 
-        /* 📰 DESAIN FIGURA KORAN VINTAGE 📰 */
-        .result-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        .btn {
+            background: var(--ink-color);
+            color: var(--bg-newspaper);
+            border: none;
+            padding: 12px 35px;
+            font-size: 14px;
+            font-weight: bold;
+            font-family: 'Courier Prime', monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 15px;
+            width: 85%;
+            transition: all 0.2s;
         }
+        .btn:hover { background: #333; }
+        .btn:disabled { background: #ccc; color: #666; cursor: not-allowed; border-color: #ccc; }
+        
+        .btn-download {
+            background: #8b2635;
+            color: #fff;
+            max-width: 600px;
+            margin-bottom: 20px;
+        }
+        .btn-download:hover { background: #a23142; }
 
-        .newspaper-frame {
-            width: 210px;
+        /* 📰 LAYOUT KORAN UKURAN HVS (A4 RATIO) 📰 */
+        .newspaper-hvs {
+            width: 700px;         /* Lebar Standar HVS di Layar */
+            height: 990px;        /* Tinggi Proporsional Rasio HVS/A4 Vertikal */
             background: var(--bg-newspaper);
             color: var(--ink-color);
-            padding: 18px 18px 25px 18px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+            padding: 30px;
+            box-shadow: 0 15px 45px rgba(0,0,0,0.2);
             border: 1px solid #c2bba8;
+            box-sizing: border-box;
             display: flex;
             flex-direction: column;
-            position: relative;
-            box-sizing: border-box;
         }
 
-        /* Header Koran */
+        /* Kepala Berita */
         .newspaper-header {
             text-align: center;
-            border-bottom: 4px double var(--ink-color);
-            margin-bottom: 10px;
-            padding-bottom: 5px;
+            border-bottom: 5px double var(--ink-color);
+            padding-bottom: 8px;
+            margin-bottom: 12px;
         }
 
         .newspaper-title {
             font-family: 'Playfair Display', serif;
-            font-size: 24px;
+            font-size: 52px;
             font-weight: 700;
-            letter-spacing: -0.5px;
+            letter-spacing: -1px;
             margin: 0;
-            line-height: 1;
+            line-height: 0.9;
         }
 
         .newspaper-meta {
             display: flex;
             justify-content: space-between;
             font-family: 'Courier Prime', monospace;
-            font-size: 8px;
-            margin-top: 4px;
+            font-size: 11px;
+            margin-top: 8px;
             border-top: 1px solid var(--ink-color);
-            padding-top: 2px;
+            padding-top: 4px;
             font-weight: bold;
         }
 
-        /* Teks Headline Koran */
+        /* Headline Utama */
         .newspaper-headline {
             font-family: 'Playfair Display', serif;
-            font-size: 14px;
+            font-size: 28px;
             font-weight: 700;
             text-align: center;
-            margin: 5px 0 10px 0;
-            line-height: 1.2;
+            margin: 5px 0 15px 0;
+            line-height: 1.1;
             text-transform: uppercase;
-            word-wrap: break-word;
-            border-bottom: 1px dashed var(--ink-color);
-            padding-bottom: 6px;
+            border-bottom: 2px solid var(--ink-color);
+            padding-bottom: 12px;
         }
 
-        /* Slot Foto Memanjang ke Bawah */
-        .photo-list {
+        /* Pembagian Multi Kolom ala Koran Asli */
+        .newspaper-body {
             display: flex;
-            flex-direction: column;
-            gap: 14px;
+            gap: 20px;
+            flex: 1;
+            overflow: hidden;
         }
 
-        .photo-container {
+        /* Kolom Kiri (2 Foto Berurutan) */
+        .left-column {
+            flex: 1;
             display: flex;
             flex-direction: column;
-            border-bottom: 1px solid rgba(0,0,0,0.15);
-            padding-bottom: 10px;
+            gap: 15px;
+            border-right: 1px solid rgba(0,0,0,0.2);
+            padding-right: 15px;
         }
-        .photo-container:last-child {
-            border-bottom: none;
-            padding-bottom: 0;
+
+        /* Kolom Kanan (1 Foto Utama + Tulisan Artikel) */
+        .right-column {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .photo-block {
+            display: flex;
+            flex-direction: column;
         }
 
         .photo-slot {
             width: 100%;
-            height: 130px;
+            height: 220px; /* Ukuran foto lebih besar seimbang dengan kertas HVS */
             background: #d8d3c5;
             overflow: hidden;
             border: 1px solid var(--ink-color);
@@ -262,22 +250,39 @@
             height: 100%;
             object-fit: cover;
             transform: scaleX(-1);
-            filter: grayscale(100%) contrast(110%); /* Efek foto koran Hitam Putih Klasik */
+            filter: grayscale(100%) contrast(115%); /* Efek Cetak Koran */
         }
 
-        /* Keterangan Berita Kecil di Bawah Foto */
         .photo-caption {
             font-family: 'Courier Prime', monospace;
-            font-size: 7.5px;
-            margin-top: 4px;
-            line-height: 1.2;
+            font-size: 10.5px;
+            margin-top: 5px;
+            line-height: 1.3;
             text-align: justify;
             font-style: italic;
         }
 
+        /* Artikel Berita Tambahan */
+        .news-article {
+            font-family: 'Playfair Display', serif;
+            font-size: 13px;
+            line-height: 1.4;
+            text-align: justify;
+            color: #222;
+        }
+        
+        .news-article::first-letter {
+            font-size: 35px;
+            float: left;
+            font-weight: bold;
+            margin-right: 5px;
+            line-height: 0.9;
+            font-family: 'Special Elite', cursive;
+        }
+
         /* Footer Koran */
         .newspaper-footer {
-            margin-top: 15px;
+            margin-top: auto;
             border-top: 1px solid var(--ink-color);
             padding-top: 10px;
             display: flex;
@@ -287,23 +292,21 @@
 
         .barcode {
             font-family: 'Courier Prime', monospace;
-            font-size: 7px;
-            letter-spacing: 0.5px;
+            font-size: 9px;
             display: flex;
             flex-direction: column;
         }
         .barcode-lines {
             letter-spacing: -1px;
             font-weight: bold;
-            font-size: 11px;
-            margin-bottom: -2px;
+            font-size: 16px;
+            margin-bottom: -3px;
         }
 
-        .price-tag {
-            font-family: 'Special Elite', cursive;
-            font-size: 9px;
-            border: 1px solid var(--ink-color);
-            padding: 1px 4px;
+        .page-number {
+            font-family: 'Courier Prime', monospace;
+            font-size: 11px;
+            font-weight: bold;
         }
 
         canvas { display: none; }
@@ -311,8 +314,8 @@
 </head>
 <body>
 
-    <h1 class="title-page">📰 Retro Newspaper Generator 📰</h1>
-    <p class="subtitle-page">Dokumentasikan momen spesialmu ke dalam cetakan berita utama koran jadul!</p>
+    <h1 class="title-page">📰 HVS Newspaper Generator 📰</h1>
+    <p class="subtitle-page">Cetak hasil jepretan fotobooth instan dalam tata letak dokumen halaman depan koran nasional.</p>
 
     <div class="container">
         <div class="booth-section">
@@ -324,54 +327,65 @@
             
             <button class="btn" id="start-btn">Ambil Foto 1 📸</button>
 
-            <div class="tool-label">✍️ Edit Berita Utama (Headline):</div>
-            <input type="text" class="headline-input" id="headline-text" value="Momen Langka Terjadi Hari Ini!" maxlength="45">
-            
-            <p style="font-size:11px; margin: 10px 0 0 0; color:#666; text-align:center; width:85%;">
-                *Teks di atas akan langsung mengubah judul utama di lembaran koran secara real-time.
-            </p>
-        </div>
-
-        <div class="result-section">
-            
-            <div class="newspaper-frame" id="capture-area">
+            <div class="inputs-group">
+                <div class="tool-label" style="width:85%; margin-bottom: 2px;">✍️ Edit Headline Koran:</div>
+                <input type="text" class="custom-input" id="headline-text" value="BREAKING NEWS: KEJADIAN LUAR BIASA TERTANGKAP KAMERA!" maxlength="60">
                 
-                <div class="newspaper-header">
-                    <h2 class="newspaper-title">THE RETRO TIMES</h2>
-                    <div class="newspaper-meta">
-                        <span id="live-date">VOL. XCIV NO. 152</span>
-                        <span>EDISI KHUSUS / Rp 0,-</span>
-                    </div>
-                </div>
-
-                <div class="newspaper-headline" id="print-headline">Momen Langka Terjadi Hari Ini!</div>
-
-                <div class="photo-list">
-                    <div class="photo-container">
-                        <div class="photo-slot"><img id="img1" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><rect width='100%' height='100%' fill='%23ccc'/></svg>"></div>
-                        <div class="photo-caption">[Gambar 1.0] Kamera menangkap ekspresi pertama subjek yang terpantau penuh dengan pesona pagi ini.</div>
-                    </div>
-                    <div class="photo-container">
-                        <div class="photo-slot"><img id="img2" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><rect width='100%' height='100%' fill='%23ccc'/></svg>"></div>
-                        <div class="photo-caption">[Gambar 1.1] Memasuki pose kedua, situasi semakin tidak terkendali akibat tingkah laku yang sangat menggemaskan.</div>
-                    </div>
-                    <div class="photo-container">
-                        <div class="photo-slot"><img id="img3" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><rect width='100%' height='100%' fill='%23ccc'/></svg>"></div>
-                        <div class="photo-caption">[Gambar 1.2] Sesi pemotretan diakhiri dengan sebuah senyuman penutup yang sukses menggemparkan seluruh jagat raya.</div>
-                    </div>
-                </div>
-
-                <div class="newspaper-footer">
-                    <div class="barcode">
-                        <span class="barcode-lines">||||| | |||| || | ||| ||</span>
-                        <span>NO. URUT: <span id="photo-id">2026</span></span>
-                    </div>
-                    <div class="price-tag">DAILY</div>
-                </div>
-
-            </div> <button class="btn btn-download" id="download-btn">Unduh Koran 📥</button>
+                <div class="tool-label" style="width:85%; margin-bottom: 2px;">📝 Tulis Isi Artikel Berita:</div>
+                <textarea class="custom-input" id="article-text" rows="3" style="resize:none; font-family:'Playfair Display', serif;">Laporan utama hari ini mencatat pergerakan momen berharga yang berhasil diabadikan dengan sempurna. Berdasarkan pantauan langsung di lokasi, subjek memancarkan energi positif tingkat tinggi yang belum pernah terekam dalam sejarah jurnalistik modern sebelum ini...</textarea>
+            </div>
         </div>
-    </div>
+
+        <button class="btn btn-download" id="download-btn">Unduh Lembaran Koran HVS (PNG) 📥</button>
+
+        <div class="newspaper-hvs" id="capture-area">
+            
+            <div class="newspaper-header">
+                <h2 class="newspaper-title">THE DAILY MEMORIES</h2>
+                <div class="newspaper-meta">
+                    <span id="live-date">SELASA, 2 JUNI 2026</span>
+                    <span>EDISI HVS PREMIUM / NOMOR 001</span>
+                </div>
+            </div>
+
+            <div class="newspaper-headline" id="print-headline">BREAKING NEWS: KEJADIAN LUAR BIASA TERTANGKAP KAMERA!</div>
+
+            <div class="newspaper-body">
+                
+                <div class="left-column">
+                    <div class="photo-block">
+                        <div class="photo-slot"><img id="img1" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><rect width='100%' height='100%' fill='%23ccc'/></svg>"></div>
+                        <div class="photo-caption"><b>Gambar 1.A:</b> Pose pertama memperlihatkan kesiapan radar kamera dalam mendeteksi raut wajah bahagia yang natural semenjak pagi hari.</div>
+                    </div>
+                    
+                    <div class="photo-block">
+                        <div class="photo-slot"><img id="img2" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><rect width='100%' height='100%' fill='%23ccc'/></svg>"></div>
+                        <div class="photo-caption"><b>Gambar 1.B:</b> Memasuki fase kedua, eksperimen gaya mulai dilakukan demi menghasilkan estetika dokumentasi dokumen yang berharga.</div>
+                    </div>
+                </div>
+
+                <div class="right-column">
+                    <div class="photo-block">
+                        <div class="photo-slot" style="height: 250px;"><img id="img3" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><rect width='100%' height='100%' fill='%23ccc'/></svg>"></div>
+                        <div class="photo-caption"><b>Gambar Utama:</b> Potret klimaks penutup yang dirilis secara resmi oleh lembaga penyiaran hari ini.</div>
+                    </div>
+
+                    <div class="news-article" id="print-article">
+                        Laporan utama hari ini mencatat pergerakan momen berharga yang berhasil diabadikan dengan sempurna. Berdasarkan pantauan langsung di lokasi, subjek memancarkan energi positif tingkat tinggi yang belum pernah terekam dalam sejarah jurnalistik modern sebelum ini...
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="newspaper-footer">
+                <div class="barcode">
+                    <span class="barcode-lines">||||| ||| || |||| | ||||| ||</span>
+                    <span>KODE DOKUMEN: <span id="photo-id">9921</span></span>
+                </div>
+                <div class="page-number">HALAMAN UTAMA - RP 0</div>
+            </div>
+
+        </div> </div>
 
     <canvas id="canvas" width="640" height="480"></canvas>
     
@@ -388,6 +402,8 @@
         
         const headlineInput = document.getElementById('headline-text');
         const printHeadline = document.getElementById('print-headline');
+        const articleInput = document.getElementById('article-text');
+        const printArticle = document.getElementById('print-article');
         
         let currentPhotoSession = 1;
         const images = [
@@ -396,11 +412,35 @@
             document.getElementById('img3')
         ];
 
-        // 1. Set Tanggal Otomatis di Koran Sesuai Hari Ini
-        const options = { year: 'numeric', month: 'LONG', day: 'numeric' };
+        // 1. Set Tanggal Hari Ini Otomatis
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         const todayStr = new Date().toLocaleDateString('id-ID', options).toUpperCase();
         document.getElementById('live-date').innerText = todayStr;
-        document.getElementById('photo-id').innerText = Math.floor(1000 + Math.random() * 9000);
+        document.getElementById('photo-id').innerText = Math.floor(10000 + Math.random() * 90000);
 
-        // 2. Sink
-        
+        // 2. Sinkronisasi Teks secara Real-time
+        headlineInput.addEventListener('input', () => { printHeadline.innerText = headlineInput.value; });
+        articleInput.addEventListener('input', () => { printArticle.innerText = articleInput.value; });
+
+        // 3. Izin Akses Kamera
+        navigator.mediaDevices.getUserMedia({ video: { width: 640, height: 480 }, audio: false })
+            .then(stream => { video.srcObject = stream; })
+            .catch(err => { alert("Kamera tidak dapat diakses."); });
+
+        // 4. Logika Tombol Jepret Bertahap
+        startBtn.addEventListener('click', async () => {
+            startBtn.disabled = true;
+            
+            await runCountdown(3);
+            triggerShutterFlash();
+            takeSnapshot(currentPhotoSession - 1);
+            
+            currentPhotoSession++;
+            
+            if (currentPhotoSession === 2) {
+                startBtn.innerText = "Ambil Foto 2 📸";
+                startBtn.disabled = false;
+            } else if (currentPhotoSession === 3) {
+                startBtn.innerText = "Ambil Foto 3 📸";
+                startBtn.disabled = false
+    
