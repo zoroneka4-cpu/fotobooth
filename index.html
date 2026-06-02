@@ -3,48 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kawaii Photobooth Pro (Manual Click) 📸 ✨</title>
+    <title>The Daily Retro - Newspaper Photobooth 📰</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Special+Elite&family=Courier+Prime&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    
     <style>
         :root {
-            --bg-frame: #ffdee9;
+            --bg-newspaper: #f2efe9; /* Warna kertas koran vintage */
+            --ink-color: #1a1a1a;    /* Warna tinta hitam pudar */
         }
 
         body {
-            font-family: 'Poppins', 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #ffe5ec, #ffc2d1);
+            font-family: 'Poppins', sans-serif;
+            background: #e5dfd3;
             margin: 0;
             padding: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            color: #4a4a4a;
+            color: #333;
             user-select: none;
         }
 
-        h1 { margin-bottom: 5px; color: #ff477e; text-shadow: 2px 2px #fff; }
-        p { margin-top: 0; margin-bottom: 20px; font-weight: 500; text-align: center; }
+        h1.title-page {
+            font-family: 'Special Elite', cursive;
+            margin-bottom: 5px;
+            color: #2b2b2b;
+            text-align: center;
+        }
+
+        p.subtitle-page {
+            margin-top: 0;
+            margin-bottom: 25px;
+            font-size: 14px;
+            color: #666;
+            text-align: center;
+        }
 
         .container {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 30px;
+            gap: 40px;
             max-width: 1100px;
             width: 100%;
         }
 
-        /* Panel Kontrol & Kamera */
+        /* Panel Kamera */
         .booth-section {
             flex: 1;
             min-width: 340px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            background: rgba(255, 255, 255, 0.85);
-            padding: 20px;
-            border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(255, 71, 126, 0.15);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.8);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            border: 1px solid #d1c9bc;
+            height: fit-content;
         }
 
         .camera-box {
@@ -52,9 +68,10 @@
             width: 320px;
             height: 240px;
             background: #222;
-            border-radius: 15px;
+            border-radius: 6px;
             overflow: hidden;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border: 3px solid var(--ink-color);
         }
 
         #video {
@@ -64,7 +81,6 @@
             transform: scaleX(-1);
         }
 
-        /* Efek Shutter Flash Putih */
         #shutter-flash {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -88,90 +104,157 @@
             opacity: 0;
             pointer-events: none;
             z-index: 5;
+            font-family: 'Special Elite', cursive;
         }
 
         .btn {
-            background: #ff477e;
-            color: white;
+            background: var(--ink-color);
+            color: var(--bg-newspaper);
             border: none;
             padding: 12px 35px;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: bold;
-            border-radius: 50px;
+            font-family: 'Courier Prime', monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 4px;
             cursor: pointer;
-            margin-top: 15px;
-            box-shadow: 0 4px 15px rgba(255, 71, 126, 0.4);
+            margin-top: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
             transition: all 0.2s;
+            width: 85%;
+            border: 1px solid var(--ink-color);
+        }
+
+        .btn:hover {
+            background: #333;
+            transform: translateY(-1px);
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            border-color: #ccc;
+            cursor: not-allowed;
+            color: #666;
+        }
+
+        .btn-download {
+            background: #8b2635;
+            border-color: #8b2635;
+            color: #fff;
+            margin-top: 20px;
+        }
+        .btn-download:hover { background: #a23142; }
+
+        .tool-label {
+            font-family: 'Courier Prime', monospace;
+            font-size: 13px;
+            font-weight: bold;
+            margin: 20px 0 8px 0;
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--ink-color);
+            width: 85%;
+            padding-bottom: 3px;
+        }
+
+        /* Input Mengubah Headline Koran */
+        .headline-input {
             width: 80%;
-            text-align: center;
+            padding: 8px 10px;
+            border: 1px solid var(--ink-color);
+            background: #faf9f6;
+            font-family: 'Courier Prime', monospace;
+            font-size: 13px;
+            border-radius: 4px;
         }
 
-        .btn:hover { background: #ff5c8a; transform: translateY(-2px); }
-        .btn:disabled { background: #ccc; box-shadow: none; cursor: not-allowed; }
-        .btn-download { background: #4cc9f0; box-shadow: 0 4px 15px rgba(76, 201, 240, 0.4); margin-top: 15px;}
-        .btn-download:hover { background: #63d2f2; }
-
-        /* Pilihan Frame & Aksesoris */
-        .tool-label { font-size: 14px; font-weight: bold; margin: 15px 0 5px 0; color: #ff477e; }
-        
-        .selector-grid {
-            display: flex;
-            gap: 10px;
-            background: #fff;
-            padding: 10px;
-            border-radius: 12px;
-            box-shadow: inset 0 0 5px rgba(0,0,0,0.05);
-            width: 90%;
-            justify-content: center;
-        }
-
-        .frame-opt {
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
-            cursor: pointer;
-            border: 2px solid #ddd;
-        }
-
-        .sticker-opt {
-            font-size: 24px;
-            cursor: pointer;
-            padding: 5px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            transition: transform 0.2s;
-        }
-        .sticker-opt:hover { transform: scale(1.2); }
-
-        /* Hasil Foto Area */
+        /* 📰 DESAIN FIGURA KORAN VINTAGE 📰 */
         .result-section {
             display: flex;
             flex-direction: column;
             align-items: center;
-            position: relative;
         }
 
-        /* Figura Utama */
-        .photostrip-wrapper {
-            position: relative;
-            padding: 15px 15px 45px 15px;
-            background: var(--bg-frame);
-            border-radius: 4px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-            width: 180px;
+        .newspaper-frame {
+            width: 210px;
+            background: var(--bg-newspaper);
+            color: var(--ink-color);
+            padding: 18px 18px 25px 18px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+            border: 1px solid #c2bba8;
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            overflow: hidden;
+            position: relative;
+            box-sizing: border-box;
+        }
+
+        /* Header Koran */
+        .newspaper-header {
+            text-align: center;
+            border-bottom: 4px double var(--ink-color);
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+        }
+
+        .newspaper-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin: 0;
+            line-height: 1;
+        }
+
+        .newspaper-meta {
+            display: flex;
+            justify-content: space-between;
+            font-family: 'Courier Prime', monospace;
+            font-size: 8px;
+            margin-top: 4px;
+            border-top: 1px solid var(--ink-color);
+            padding-top: 2px;
+            font-weight: bold;
+        }
+
+        /* Teks Headline Koran */
+        .newspaper-headline {
+            font-family: 'Playfair Display', serif;
+            font-size: 14px;
+            font-weight: 700;
+            text-align: center;
+            margin: 5px 0 10px 0;
+            line-height: 1.2;
+            text-transform: uppercase;
+            word-wrap: break-word;
+            border-bottom: 1px dashed var(--ink-color);
+            padding-bottom: 6px;
+        }
+
+        /* Slot Foto Memanjang ke Bawah */
+        .photo-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .photo-container {
+            display: flex;
+            flex-direction: column;
+            border-bottom: 1px solid rgba(0,0,0,0.15);
+            padding-bottom: 10px;
+        }
+        .photo-container:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
         }
 
         .photo-slot {
             width: 100%;
-            height: 135px;
-            background: #fff;
+            height: 130px;
+            background: #d8d3c5;
             overflow: hidden;
-            position: relative;
-            box-shadow: inset 0 0 4px rgba(0,0,0,0.1);
+            border: 1px solid var(--ink-color);
+            box-sizing: border-box;
         }
 
         .photo-slot img {
@@ -179,52 +262,57 @@
             height: 100%;
             object-fit: cover;
             transform: scaleX(-1);
+            filter: grayscale(100%) contrast(110%); /* Efek foto koran Hitam Putih Klasik */
         }
 
-        /* Stiker Aktif di Atas Figura */
-        .placed-sticker {
-            position: absolute;
-            font-size: 30px;
-            cursor: move;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 20;
-            user-select: none;
-            display: inline-block;
+        /* Keterangan Berita Kecil di Bawah Foto */
+        .photo-caption {
+            font-family: 'Courier Prime', monospace;
+            font-size: 7.5px;
+            margin-top: 4px;
+            line-height: 1.2;
+            text-align: justify;
+            font-style: italic;
         }
 
-        .placed-sticker.selected {
-            outline: 2px dashed #ff477e;
-            background: rgba(255,255,255,0.4);
+        /* Footer Koran */
+        .newspaper-footer {
+            margin-top: 15px;
+            border-top: 1px solid var(--ink-color);
+            padding-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .strip-footer {
-            position: absolute;
-            bottom: 12px;
-            left: 0;
-            width: 100%;
-            text-align: center;
-            font-size: 11px;
+        .barcode {
+            font-family: 'Courier Prime', monospace;
+            font-size: 7px;
+            letter-spacing: 0.5px;
+            display: flex;
+            flex-direction: column;
+        }
+        .barcode-lines {
+            letter-spacing: -1px;
             font-weight: bold;
-            color: rgba(0,0,0,0.4);
-            letter-spacing: 1px;
+            font-size: 11px;
+            margin-bottom: -2px;
         }
 
-        /* Petunjuk Aksi */
-        .tips {
-            font-size: 11px;
-            color: #777;
-            margin-top: 8px;
-            max-width: 200px;
-            text-align: center;
+        .price-tag {
+            font-family: 'Special Elite', cursive;
+            font-size: 9px;
+            border: 1px solid var(--ink-color);
+            padding: 1px 4px;
         }
+
+        canvas { display: none; }
     </style>
 </head>
 <body>
 
-    <h1>📸 Kawaii Photobooth Pro 📸</h1>
-    <p>Siapkan gayamu, tekan tombol per sesi foto, hias dengan stiker, lalu unduh!</p>
+    <h1 class="title-page">📰 Retro Newspaper Generator 📰</h1>
+    <p class="subtitle-page">Dokumentasikan momen spesialmu ke dalam cetakan berita utama koran jadul!</p>
 
     <div class="container">
         <div class="booth-section">
@@ -236,37 +324,52 @@
             
             <button class="btn" id="start-btn">Ambil Foto 1 📸</button>
 
-            <div class="tool-label">🎨 Pilih Desain Figura:</div>
-            <div class="selector-grid">
-                <div class="frame-opt" style="background:#ffdee9" onclick="changeBg('#ffdee9')"></div>
-                <div class="frame-opt" style="background:#fff5cc" onclick="changeBg('#fff5cc')"></div>
-                <div class="frame-opt" style="background:#ccf2ff" onclick="changeBg('#ccf2ff')"></div>
-                <div class="frame-opt" style="background:#f3ccff" onclick="changeBg('#f3ccff')"></div>
-                <div class="frame-opt" style="background:#d2f8d2" onclick="changeBg('#d2f8d2')"></div>
-            </div>
-
-            <div class="tool-label">💖 Tambah Hiasan Stiker (Klik):</div>
-            <div class="selector-grid">
-                <span class="sticker-opt" onclick="addSticker('✨')">✨</span>
-                <span class="sticker-opt" onclick="addSticker('🎀')">🎀</span>
-                <span class="sticker-opt" onclick="addSticker('🧸')">🧸</span>
-                <span class="sticker-opt" onclick="addSticker('🐱')">🐱</span>
-                <span class="sticker-opt" onclick="addSticker('🤍')">🤍</span>
-                <span class="sticker-opt" onclick="addSticker('⭐️')">⭐️</span>
-            </div>
-            <p style="font-size:11px; margin: 5px 0 0 0; color:#888;">*Klik stiker di foto untuk menyeleksi. Tekan [ + ] perbesar, [ - ] perkecil, [ Del ] hapus.</p>
+            <div class="tool-label">✍️ Edit Berita Utama (Headline):</div>
+            <input type="text" class="headline-input" id="headline-text" value="Momen Langka Terjadi Hari Ini!" maxlength="45">
+            
+            <p style="font-size:11px; margin: 10px 0 0 0; color:#666; text-align:center; width:85%;">
+                *Teks di atas akan langsung mengubah judul utama di lembaran koran secara real-time.
+            </p>
         </div>
 
         <div class="result-section">
-            <div class="photostrip-wrapper" id="capture-area">
-                <div class="photo-slot"><img id="img1" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><rect width='100%' height='100%' fill='%23eee'/></svg>"></div>
-                <div class="photo-slot"><img id="img2" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><rect width='100%' height='100%' fill='%23eee'/></svg>"></div>
-                <div class="photo-slot"><img id="img3" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><rect width='100%' height='100%' fill='%23eee'/></svg>"></div>
-                <div class="strip-footer">MEMORIES ✨</div>
-            </div>
+            
+            <div class="newspaper-frame" id="capture-area">
+                
+                <div class="newspaper-header">
+                    <h2 class="newspaper-title">THE RETRO TIMES</h2>
+                    <div class="newspaper-meta">
+                        <span id="live-date">VOL. XCIV NO. 152</span>
+                        <span>EDISI KHUSUS / Rp 0,-</span>
+                    </div>
+                </div>
 
-            <button class="btn btn-download" id="download-btn">Unduh Hasil Foto 📥</button>
-            <div class="tips">Geser stiker pakai mouse/jari langsung di atas foto!</div>
+                <div class="newspaper-headline" id="print-headline">Momen Langka Terjadi Hari Ini!</div>
+
+                <div class="photo-list">
+                    <div class="photo-container">
+                        <div class="photo-slot"><img id="img1" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><rect width='100%' height='100%' fill='%23ccc'/></svg>"></div>
+                        <div class="photo-caption">[Gambar 1.0] Kamera menangkap ekspresi pertama subjek yang terpantau penuh dengan pesona pagi ini.</div>
+                    </div>
+                    <div class="photo-container">
+                        <div class="photo-slot"><img id="img2" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><rect width='100%' height='100%' fill='%23ccc'/></svg>"></div>
+                        <div class="photo-caption">[Gambar 1.1] Memasuki pose kedua, situasi semakin tidak terkendali akibat tingkah laku yang sangat menggemaskan.</div>
+                    </div>
+                    <div class="photo-container">
+                        <div class="photo-slot"><img id="img3" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><rect width='100%' height='100%' fill='%23ccc'/></svg>"></div>
+                        <div class="photo-caption">[Gambar 1.2] Sesi pemotretan diakhiri dengan sebuah senyuman penutup yang sukses menggemparkan seluruh jagat raya.</div>
+                    </div>
+                </div>
+
+                <div class="newspaper-footer">
+                    <div class="barcode">
+                        <span class="barcode-lines">||||| | |||| || | ||| ||</span>
+                        <span>NO. URUT: <span id="photo-id">2026</span></span>
+                    </div>
+                    <div class="price-tag">DAILY</div>
+                </div>
+
+            </div> <button class="btn btn-download" id="download-btn">Unduh Koran 📥</button>
         </div>
     </div>
 
@@ -283,182 +386,21 @@
         const flashEl = document.getElementById('shutter-flash');
         const captureArea = document.getElementById('capture-area');
         
-        let selectedSticker = null;
-        let currentPhotoSession = 1; // Menyimpan urutan sesi foto (1, 2, atau 3)
-
+        const headlineInput = document.getElementById('headline-text');
+        const printHeadline = document.getElementById('print-headline');
+        
+        let currentPhotoSession = 1;
         const images = [
             document.getElementById('img1'),
             document.getElementById('img2'),
             document.getElementById('img3')
         ];
 
-        // Akses Kamera
-        navigator.mediaDevices.getUserMedia({ video: { width: 640, height: 480 }, audio: false })
-            .then(stream => { video.srcObject = stream; })
-            .catch(err => { alert("Izin kamera ditolak/tidak ditemukan."); });
+        // 1. Set Tanggal Otomatis di Koran Sesuai Hari Ini
+        const options = { year: 'numeric', month: 'LONG', day: 'numeric' };
+        const todayStr = new Date().toLocaleDateString('id-ID', options).toUpperCase();
+        document.getElementById('live-date').innerText = todayStr;
+        document.getElementById('photo-id').innerText = Math.floor(1000 + Math.random() * 9000);
 
-        // Alur Sesi Foto Berdasarkan Klik Manual
-        startBtn.addEventListener('click', async () => {
-            startBtn.disabled = true;
-            
-            // Jalankan countdown 3 detik untuk sesi foto yang sedang aktif
-            await runCountdown(3);
-            triggerShutterFlash();
-            takeSnapshot(currentPhotoSession - 1); // Indeks array dimulai dari 0
-            
-            // Naikkan urutan sesi foto setelah selesai dipotret
-            currentPhotoSession++;
-            
-            // Perbarui teks tombol atau reset ulang jika sudah selesai 3 kali foto
-            if (currentPhotoSession === 2) {
-                startBtn.innerText = "Ambil Foto 2 📸";
-                startBtn.disabled = false;
-            } else if (currentPhotoSession === 3) {
-                startBtn.innerText = "Ambil Foto 3 📸";
-                startBtn.disabled = false;
-            } else {
-                startBtn.innerText = "Ulang Sesi Foto (Foto 1) 🔄";
-                currentPhotoSession = 1; // Reset kembali ke sesi pertama jika ingin mengulang
-                startBtn.disabled = false;
-            }
-        });
-
-        function runCountdown(seconds) {
-            return new Promise((resolve) => {
-                let counter = seconds;
-                countdownEl.style.opacity = '1';
-                countdownEl.innerText = counter;
-
-                const interval = setInterval(() => {
-                    counter--;
-                    if (counter > 0) {
-                        countdownEl.innerText = counter;
-                    } else {
-                        clearInterval(interval);
-                        countdownEl.style.opacity = '0';
-                        resolve();
-                    }
-                }, 1000);
-            });
-        }
-
-        // Efek Shutter Flash Kamera Putih
-        function triggerShutterFlash() {
-            flashEl.style.opacity = '1';
-            setTimeout(() => {
-                flashEl.style.opacity = '0';
-            }, 150);
-        }
-
-        function takeSnapshot(index) {
-            const context = canvas.getContext('2d');
-            context.drawImage(video, 0, 0, canvas.width, canvas.height);
-            images[index].src = canvas.toDataURL('image/jpeg');
-        }
-
-        // Mengubah warna background figura
-        function changeBg(color) {
-            captureArea.style.setProperty('--bg-frame', color);
-            captureArea.style.background = color;
-        }
-
-        // Menambahkan Stiker Hiasan Baru ke Figura
-        function addSticker(emoji) {
-            const sticker = document.createElement('div');
-            sticker.classList.add('placed-sticker');
-            sticker.innerText = emoji;
-            sticker.style.fontSize = "30px";
-            
-            sticker.addEventListener('mousedown', (e) => {
-                selectSticker(sticker);
-                initDrag(e, sticker);
-            });
-            
-            sticker.addEventListener('touchstart', (e) => {
-                selectSticker(sticker);
-                initDragTouch(e, sticker);
-            });
-
-            captureArea.appendChild(sticker);
-        }
-
-        function selectSticker(el) {
-            if(selectedSticker) selectedSticker.classList.remove('selected');
-            selectedSticker = el;
-            selectedSticker.classList.add('selected');
-        }
-
-        document.addEventListener('click', (e) => {
-            if(!e.target.classList.contains('placed-sticker') && !e.target.classList.contains('sticker-opt')) {
-                if(selectedSticker) selectedSticker.classList.remove('selected');
-                selectedSticker = null;
-            }
-        });
-
-        document.addEventListener('keydown', (e) => {
-            if (!selectedSticker) return;
-            let currentSize = parseInt(selectedSticker.style.fontSize);
-            
-            if (e.key === '+' || e.key === '=') {
-                selectedSticker.style.fontSize = (currentSize + 4) + 'px';
-            } else if (e.key === '-' || e.key === '_') {
-                if(currentSize > 12) selectedSticker.style.fontSize = (currentSize - 4) + 'px';
-            } else if (e.key === 'Delete' || e.key === 'Backspace') {
-                selectedSticker.remove();
-                selectedSticker = null;
-            }
-        });
-
-        function initDrag(e, el) {
-            e.preventDefault();
-            let pos1 = 0, pos2 = 0, pos3 = e.clientX, pos4 = e.clientY;
-            document.onmouseup = () => {
-                document.onmouseup = null;
-                document.onmousemove = null;
-            };
-            document.onmousemove = (e) => {
-                pos1 = pos3 - e.clientX;
-                pos2 = pos4 - e.clientY;
-                pos3 = e.clientX;
-                pos4 = e.clientY;
-                el.style.top = (el.offsetTop - pos2) + "px";
-                el.style.left = (el.offsetLeft - pos1) + "px";
-            };
-        }
-
-        function initDragTouch(e, el) {
-            let touch = e.touches[0];
-            let pos1 = 0, pos2 = 0, pos3 = touch.clientX, pos4 = touch.clientY;
-            el.ontouchend = () => {
-                el.ontouchend = null;
-                el.ontouchmove = null;
-            };
-            el.ontouchmove = (e) => {
-                let t = e.touches[0];
-                pos1 = pos3 - t.clientX;
-                pos2 = pos4 - t.clientY;
-                pos3 = t.clientX;
-                pos4 = t.clientY;
-                el.style.top = (el.offsetTop - pos2) + "px";
-                el.style.left = (el.offsetLeft - pos1) + "px";
-            };
-        }
-
-        // FITUR DOWNLOAD
-        downloadBtn.addEventListener('click', () => {
-            if(selectedSticker) selectedSticker.classList.remove('selected');
-            
-            html2canvas(captureArea, {
-                useCORS: true,
-                scale: 2 
-            }).then(canvasResult => {
-                const link = document.createElement('a');
-                link.download = 'kawaii-photobooth-' + Date.now() + '.png';
-                link.href = canvasResult.toDataURL('image/png');
-                link.click();
-            });
-        });
-    </script>
-</body>
-  </html>
-  
+        // 2. Sink
+        
