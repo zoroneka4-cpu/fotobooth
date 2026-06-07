@@ -13,7 +13,7 @@
         
         .booth-section { width: 100%; max-width: 450px; background: #fff; padding: 15px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 20px; }
         .camera-box { position: relative; width: 100%; aspect-ratio: 4/3; background: #000; border-radius: 8px; overflow: hidden; border: 3px solid var(--ink); }
-        #video { width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); }
+        #video { width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); display: block; }
         
         .btn-group { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
         .btn { padding: 12px; border: none; border-radius: 6px; background: var(--ink); color: #fff; font-weight: bold; cursor: pointer; text-transform: uppercase; font-family: 'Chivo Mono'; -webkit-tap-highlight-color: transparent; }
@@ -36,16 +36,8 @@
             position: absolute;
         }
         
-        /* PERBAIKAN UTAMA: Mengunci ukuran bingkai foto agar proporsional */
-        .photo-container {
-            text-align: center; 
-            margin: 15px 0; 
-            background: #eae4d3; 
-            padding: 5px; 
-            border: 1px solid #ccc;
-        }
+        .photo-container { text-align: center; margin: 15px 0; background: #eae4d3; padding: 5px; border: 1px solid #ccc; }
 
-        /* object-fit: cover mencegah gambar gepeng/melar */
         .newspaper-hvs img {
             width: 100%; 
             height: 180px; 
@@ -64,7 +56,7 @@
 
     <div class="booth-section">
         <div class="camera-box">
-            <video id="video" autoplay playsinline></video>
+            <video id="video" autoplay playsinline muted></video>
             <div id="shutter-flash"></div>
             <div id="countdown">3</div>
         </div>
@@ -112,7 +104,7 @@
         </div>
     </div>
 
-    <canvas id="canvas" width="640" height="480"></canvas>
+    <canvas id="canvas" width="640" height="480" style="display:none;"></canvas>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
     <script>
@@ -125,11 +117,65 @@
         const images = [document.getElementById('img1'), document.getElementById('img2'), document.getElementById('img3')];
         let session = 1;
 
-        navigator.mediaDevices.getUserMedia({ video: { facingMode: "user", width: 640, height: 480 } })
-            .then(stream => { video.srcObject = stream; })
-            .catch(err => { alert("Mohon izinkan akses kamera!"); });
+        // PERBAIKAN BUG KAMERA: Solusi Lintas Browser & Deteksi Protokol Keamanan
+        function initCamera() {
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                // Mendukung browser jadul / modul webkit lawas
+                navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+                if (navigator.getUserMedia) {
+                    navigator.getUserMedia({ video: { facingMode: "user" } }, 
+                        stream => { video.srcObject = stream; }, 
+                        err => handleCameraError(err)
+                    );
+                } else {
+                    checkSecurityContext();
+                }
+            } else {
+                // Standar modern dengan optimasi mobile
+                navigator.mediaDevices.getUserMedia({ 
+                    video: { 
+                        facingMode: "user",
+                        width: { ideal: 640 },
+                        height: { ideal: 480 }
+                    } 
+                })
+                .then(stream => { 
+                    video.srcObject = stream; 
+                    // Memastikan video langsung diputar pada iOS/Safari
+                    video.addEventListener('loadedmetadata', () => { video.play(); });
+                })
+                .catch(err => { handleCameraError(err); });
+            }
+        }
+
+        function checkSecurityContext() {
+            if (window.location.protocol !== 'https:' && window.location.hostname !== 'localhost') {
+                alert("BUG ALASAN: Kamera diblokir browser karena halaman tidak menggunakan HTTPS. Pastikan link Anda diawali dengan https:// atau jalankan di server lokal (localhost).");
+            } else {
+                alert("Browser Anda tidak mendukung API Kamera.");
+            }
+        }
+
+        function handleCameraError(error) {
+            console.error("Camera Error: ", error);
+            if (error.name === 'NotAllowedError' || error.name === 'PermissionDeniedError') {
+                alert("Akses Ditolak: Mohon izinkan izin kamera di pengaturan browser Anda lalu segarkan halaman.");
+            } else if (error.name === 'NotFoundError' || error.name === 'DevicesNotFoundError') {
+                alert("Kamera tidak ditemukan pada perangkat Anda.");
+            } else {
+                alert("Gagal memuat kamera: " + error.message);
+                checkSecurityContext();
+            }
+        }
+
+        // Jalankan inisialisasi kamera langsung saat halaman dimuat
+        initCamera();
 
         startBtn.addEventListener('click', async () => {
+            if(!video.srcObject) {
+                alert("Kamera belum aktif. Tidak bisa mengambil foto.");
+                return;
+            }
             startBtn.disabled = true;
             countdownEl.style.opacity = '1';
             
@@ -192,7 +238,7 @@
                     targetArea.style.zIndex = "";
 
                     const link = document.createElement('a');
-                    link.download = 'The_Daily_Chronicle_HVS.png';
+                    link.download = 'Koran_Berita_HVS.png';
                     link.href = c.toDataURL('image/png');
                     link.click();
 
