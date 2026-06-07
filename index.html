@@ -36,16 +36,25 @@
             position: absolute;
         }
         
-        .photo-container { text-align: center; margin: 15px 0; background: #eae4d3; padding: 5px; border: 1px solid #ccc; }
+        /* PERBAIKAN: Wadah Bingkai Foto di Koran */
+        .photo-container { 
+            text-align: center; 
+            margin: 15px 0; 
+            background: #eae4d3; 
+            padding: 5px; 
+            border: 1px solid #ccc; 
+            width: 100%;
+        }
 
+        /* PERBAIKAN UTAMA: Mengunci ukuran piksel dan menggunakan object-fit agar gambar TIDAK MELEBAR */
         .newspaper-hvs img {
-            width: 100%; 
-            height: 180px; 
-            object-fit: cover; 
-            transform: scaleX(-1); 
-            filter: grayscale(100%) contrast(125%) brightness(95%); 
+            width: 290px;          /* Ukuran lebar dikunci sesuai kolom koran */
+            height: 200px;         /* Ukuran tinggi dikunci */
+            object-fit: cover;     /* Memotong gambar secara proporsional, mencegah efek melar/melebar */
+            transform: scaleX(-1); /* Efek cermin agar insting foto alami */
+            filter: grayscale(100%) contrast(125%) brightness(95%); /* Efek koran jadul */
             border: 1px solid #000;
-            display: block;
+            display: inline-block;
         }
         
         #countdown { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); color: #fff; font-size: 70px; display: flex; align-items: center; justify-content: center; opacity: 0; font-family: 'Special Elite', cursive; transition: opacity 0.2s; z-index: 5; }
@@ -117,31 +126,18 @@
         const images = [document.getElementById('img1'), document.getElementById('img2'), document.getElementById('img3')];
         let session = 1;
 
-        // PERBAIKAN BUG KAMERA: Solusi Lintas Browser & Deteksi Protokol Keamanan
         function initCamera() {
             if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-                // Mendukung browser jadul / modul webkit lawas
                 navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
                 if (navigator.getUserMedia) {
-                    navigator.getUserMedia({ video: { facingMode: "user" } }, 
-                        stream => { video.srcObject = stream; }, 
-                        err => handleCameraError(err)
-                    );
+                    navigator.getUserMedia({ video: { facingMode: "user" } }, stream => { video.srcObject = stream; }, err => handleCameraError(err));
                 } else {
                     checkSecurityContext();
                 }
             } else {
-                // Standar modern dengan optimasi mobile
-                navigator.mediaDevices.getUserMedia({ 
-                    video: { 
-                        facingMode: "user",
-                        width: { ideal: 640 },
-                        height: { ideal: 480 }
-                    } 
-                })
+                navigator.mediaDevices.getUserMedia({ video: { facingMode: "user", width: { ideal: 640 }, height: { ideal: 480 } } })
                 .then(stream => { 
                     video.srcObject = stream; 
-                    // Memastikan video langsung diputar pada iOS/Safari
                     video.addEventListener('loadedmetadata', () => { video.play(); });
                 })
                 .catch(err => { handleCameraError(err); });
@@ -150,30 +146,24 @@
 
         function checkSecurityContext() {
             if (window.location.protocol !== 'https:' && window.location.hostname !== 'localhost') {
-                alert("BUG ALASAN: Kamera diblokir browser karena halaman tidak menggunakan HTTPS. Pastikan link Anda diawali dengan https:// atau jalankan di server lokal (localhost).");
-            } else {
-                alert("Browser Anda tidak mendukung API Kamera.");
+                alert("Kamera diblokir browser karena halaman tidak menggunakan HTTPS. Pastikan link Anda menggunakan https://");
             }
         }
 
         function handleCameraError(error) {
             console.error("Camera Error: ", error);
             if (error.name === 'NotAllowedError' || error.name === 'PermissionDeniedError') {
-                alert("Akses Ditolak: Mohon izinkan izin kamera di pengaturan browser Anda lalu segarkan halaman.");
-            } else if (error.name === 'NotFoundError' || error.name === 'DevicesNotFoundError') {
-                alert("Kamera tidak ditemukan pada perangkat Anda.");
+                alert("Mohon berikan izin akses kamera di browser Anda.");
             } else {
-                alert("Gagal memuat kamera: " + error.message);
                 checkSecurityContext();
             }
         }
 
-        // Jalankan inisialisasi kamera langsung saat halaman dimuat
         initCamera();
 
         startBtn.addEventListener('click', async () => {
             if(!video.srcObject) {
-                alert("Kamera belum aktif. Tidak bisa mengambil foto.");
+                alert("Kamera belum aktif.");
                 return;
             }
             startBtn.disabled = true;
@@ -255,8 +245,4 @@
         });
 
         document.getElementById('headline-text').addEventListener('input', (e) => {
-            document.getElementById('print-headline').innerText = e.target.value.toUpperCase();
-        });
-    </script>
-</body>
-</html>
+        
